@@ -1,0 +1,77 @@
+{
+  "pins" : [
+    {
+      "identity" : "bson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/orlandos-nl/BSON.git",
+      "state" : {
+        "revision" : "944dfb3b0eb028f477c25ba6a071181de8ab903a",
+        "version" : "8.0.10"
+      }
+    },
+    {
+      "identity" : "needletail-media-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/needle-tail/needletail-media-kit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "34138fee04da6c5fe280283af8b481ce8031e3a8"
+      }
+    },
+    {
+      "identity" : "swift-atomics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-atomics.git",
+      "state" : {
+        "revision" : "cd142fd2f64be2100422d658e7411e39489da985",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections.git",
+      "state" : {
+        "revision" : "d029d9d39c87bed85b1c50adee7c41795261a192",
+        "version" : "1.0.6"
+      }
+    },
+    {
+      "identity" : "swift-crypto",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-crypto.git",
+      "state" : {
+        "revision" : "b51f1d6845b353a2121de1c6a670738ec33561a6",
+        "version" : "3.1.0"
+      }
+    },
+    {
+      "identity" : "swift-data-to-file",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/needle-tail/swift-data-to-file.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "0703a6748bbaccb333007b5b9429933400853dea"
+      }
+    },
+    {
+      "identity" : "swift-nio",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-nio.git",
+      "state" : {
+        "revision" : "635b2589494c97e48c62514bc8b37ced762e0a62",
+        "version" : "2.63.0"
+      }
+    },
+    {
+      "identity" : "swift-system",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-system.git",
+      "state" : {
+        "revision" : "025bcb1165deab2e20d4eaba79967ce73013f496",
+        "version" : "1.2.1"
+      }
+    }
+  ],
+  "version" : 2
+}
