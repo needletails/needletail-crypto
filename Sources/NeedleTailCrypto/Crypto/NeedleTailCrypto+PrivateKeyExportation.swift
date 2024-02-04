@@ -26,7 +26,9 @@ extension NeedleTailCrypto {
         privateKey.encodedKey
     }
     
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
     public func exportSecureEnclavePrivateKey(_ privateKey: SecureEnclave.P256.KeyAgreement.PrivateKey) throws -> String {
         privateKey.encodedKey
     }
+#endif
 }

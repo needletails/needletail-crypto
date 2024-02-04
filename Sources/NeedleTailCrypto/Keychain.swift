@@ -4,6 +4,7 @@
 //  Created by Cole M on 6/8/20.
 //  Copyright © 2020 Cole M. All rights reserved.
 
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 import Foundation
 
 private struct KeychainItem: Sendable {
@@ -179,3 +180,4 @@ public struct KeychainConfiguration: Sendable {
         self.accessGroup = accessGroup
     }
 }
+#endif

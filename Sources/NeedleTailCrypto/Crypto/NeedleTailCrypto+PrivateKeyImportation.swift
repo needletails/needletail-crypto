@@ -25,7 +25,9 @@ extension NeedleTailCrypto {
         try P256.KeyAgreement.PrivateKey(rawRepresentation: privateKey.dataRepresentation)
     }
     
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
     public func importSecureEnclavePrivateKey(_ privateKey: String) throws -> SecureEnclave.P256.KeyAgreement.PrivateKey {
         try SecureEnclave.P256.KeyAgreement.PrivateKey(dataRepresentation: privateKey.dataRepresentation)
     }
+#endif
 }

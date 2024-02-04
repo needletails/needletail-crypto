@@ -62,6 +62,7 @@ extension String {
         fatalError("Could Not Derive Data from Salt")
     }
     
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
     func derivedSecureEnclaveSymmetricKey(
         privateKey: SecureEnclave.P256.KeyAgreement.PrivateKey,
         publicKey: P256.KeyAgreement.PublicKey
@@ -72,4 +73,5 @@ extension String {
         }
         fatalError("Could Not Derive Data from Salt")
     }
+#endif
 }

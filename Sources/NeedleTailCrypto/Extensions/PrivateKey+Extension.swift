@@ -52,6 +52,7 @@ extension P521.KeyAgreement.PrivateKey {
     }
 }
 
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 extension SecureEnclave.P256.KeyAgreement.PrivateKey {
     var encodedKey: String {
         let rawPrivateKey = self.dataRepresentation
@@ -62,3 +63,4 @@ extension SecureEnclave.P256.KeyAgreement.PrivateKey {
         fatalError("Could not add percent encoding to private key")
     }
 }
+#endif

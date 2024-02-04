@@ -16,9 +16,10 @@ import BSON
 /// this Swift Package is to make it easier for  not only encryption, but where public/private keys could and or should be stored.
 public actor NeedleTailCrypto: Sendable {
     
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
     let secureEnclave = NTSecureEnclave()
     let keychain = NTKeychain()
-    
+#endif
     public init() {}
     
     /// Errors

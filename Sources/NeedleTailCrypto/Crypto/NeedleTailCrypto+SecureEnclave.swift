@@ -7,6 +7,7 @@
 
 import Crypto
 
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 extension NeedleTailCrypto {
     /// Fetches our P256 Private Key from the secure enclave.
     /// - Returns: The *Secure Enclave*'s P256 Private Key
@@ -20,3 +21,4 @@ extension NeedleTailCrypto {
         try await secureEnclave.savePrivateKey(configuration: configuration, key: key)
     }
 }
+#endif

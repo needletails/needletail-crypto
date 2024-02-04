@@ -117,7 +117,7 @@ extension NeedleTailCrypto {
             publicKey: publicKey
         )
     }
-    
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
     private func deriveSecureEnclaveSymmetricKey(
         salt: String,
         privateKey: SecureEnclave.P256.KeyAgreement.PrivateKey,
@@ -128,4 +128,5 @@ extension NeedleTailCrypto {
             publicKey: publicKey
         )
     }
+#endif
 }

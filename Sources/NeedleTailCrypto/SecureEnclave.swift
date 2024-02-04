@@ -10,13 +10,8 @@ import LocalAuthentication
 import Crypto
 import Foundation
 
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 public actor NTSecureEnclave {
-    
-//    let configuration: KeychainConfiguration
-//    
-//    public init(configuration: KeychainConfiguration) {
-//        self.configuration = configuration
-//    }
     
     enum Errors: Error {
         case unexpectedAccessData, unhandledError(OSStatus)
@@ -128,3 +123,4 @@ public actor NTSecureEnclave {
         }
     }
 }
+#endif
