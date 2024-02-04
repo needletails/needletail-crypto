@@ -61,12 +61,14 @@ extension NeedleTailCrypto {
                 privateKey: try importP521PrivateKey(userPrivateKey),
                 publicKey: try importP521PublicKey(publicKey)
             )
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
         case .secureEnclave:
             return try deriveSecureEnclaveSymmetricKey(
                 salt: salt,
                 privateKey: try importSecureEnclavePrivateKey(userPrivateKey),
                 publicKey: try importP256PublicKey(publicKey)
             )
+#endif
         }
     }
 }

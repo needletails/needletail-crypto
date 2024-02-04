@@ -20,7 +20,6 @@ extension NeedleTailCrypto {
     public func deleteKeychainItem(configuration: KeychainConfiguration) async throws {
         return try await keychain.deleteItem(configuration: configuration)
     }
-#endif
     
     /// This is a helper method that was the consumer does not need to intitialize a Secure Enclave object on their own. If a Service Account is not specified in the *NeedleTailCrypto* Object, a service account will be automatically created for you. Multiple Keys Can be saved per secure enclave instance. Each instance will have it's own service account. Additional Secure Enclave instances will need to be created manually and the other the ``generateSecureEnclavePrivateKey()`` method must be used in conjunction with it to derive the private key.
     public func saveKeychainPrivateKey(configuration: KeychainConfiguration, with alogrythm: CryptoAlogrythm) async throws {
@@ -37,13 +36,9 @@ extension NeedleTailCrypto {
         case .secureEnclave:
             fatalError("Must use Secure Enclave object not Keychain Object")
         }
-       
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
         try await keychain.save(item: key, with: configuration)
-#endif
     }
     
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
     public func saveKeychain(item: String, configuration: KeychainConfiguration) async throws {
         try await keychain.save(item: item, with: configuration)
     }

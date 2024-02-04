@@ -29,7 +29,10 @@ public actor NeedleTailCrypto: Sendable {
     
     /// The desired algorythm you intend to use for deriving key logic
     public enum CryptoAlogrythm: Sendable {
-        case curve25519, p256, p384, p521, secureEnclave
+        case curve25519, p256, p384, p521
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
+        case secureEnclave
+#endif
     }
 }
 
