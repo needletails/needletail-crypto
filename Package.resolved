@@ -1,12 +1,13 @@
 {
+  "originHash" : "4df94342f9a8f550d00bb25ceba56c6a923c7574e38b02f69b18adc98867b99e",
   "pins" : [
     {
       "identity" : "bson",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/orlandos-nl/BSON.git",
       "state" : {
-        "revision" : "944dfb3b0eb028f477c25ba6a071181de8ab903a",
-        "version" : "8.0.10"
+        "revision" : "57da7f36cabca92166f061ea7a9539a245ee02d7",
+        "version" : "8.1.0"
       }
     },
     {
@@ -48,7 +49,7 @@
     {
       "identity" : "swift-data-to-file",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/needle-tail/swift-data-to-file.git",
+      "location" : "git@github.com:needle-tail/swift-data-to-file.git",
       "state" : {
         "branch" : "main",
         "revision" : "0703a6748bbaccb333007b5b9429933400853dea"
@@ -73,5 +74,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
