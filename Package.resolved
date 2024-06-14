@@ -1,5 +1,5 @@
 {
-  "originHash" : "4df94342f9a8f550d00bb25ceba56c6a923c7574e38b02f69b18adc98867b99e",
+  "originHash" : "d513476e7daaad8fb8f27e61c74f0ccf41ad8735b7c013a9c992f942648c882d",
   "pins" : [
     {
       "identity" : "bson",
@@ -13,10 +13,10 @@
     {
       "identity" : "needletail-media-kit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/needle-tail/needletail-media-kit.git",
+      "location" : "git@github.com:needle-tail/needletail-media-kit.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "34138fee04da6c5fe280283af8b481ce8031e3a8"
+        "revision" : "d69d614a25d8b85ef8eb2e6d700a90e79784163e",
+        "version" : "1.0.1"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:needle-tail/swift-data-to-file.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "0703a6748bbaccb333007b5b9429933400853dea"
+        "revision" : "8bb1769be50ddcf6abed733705ac9d8101859d63",
+        "version" : "1.0.2"
       }
     },
     {
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio.git",
       "state" : {
-        "revision" : "635b2589494c97e48c62514bc8b37ced762e0a62",
-        "version" : "2.63.0"
+        "revision" : "359c461e5561d22c6334828806cc25d759ca7aa6",
+        "version" : "2.65.0"
       }
     },
     {
