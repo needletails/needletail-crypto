@@ -86,7 +86,7 @@ public actor NTSecureEnclave {
         configuration: KeychainConfiguration,
         key: SecureEnclave.P256.KeyAgreement.PrivateKey
     ) throws {
-            let query = keychainQuery(configuration: configuration, key: key)
+            let query = keychainQuery(configuration: configuration, key: key, returnData: false)
 
             SecItemDelete(query as CFDictionary)
 
