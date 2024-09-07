@@ -13,8 +13,8 @@ extension NeedleTailCrypto {
 #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
     /// Fetches our P256 Private Key from the secure enclave.
     /// - Returns: The *Secure Enclave*'s P256 Private Key
-    public func fetchKeychainItem(configuration: KeychainConfiguration) async throws -> String? {
-        return try await keychain.fetchItem(configuration: configuration)
+    public func fetchKeychainItem(configuration: KeychainConfiguration) async -> String? {
+        return await keychain.fetchItem(configuration: configuration)
     }
     
     public func deleteKeychainItem(configuration: KeychainConfiguration) async throws {

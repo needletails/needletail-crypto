@@ -1,5 +1,5 @@
 {
-  "originHash" : "fd9de766b920e6eb7975020780a1d5e468a2565aa1e540ac1d0718f63f00e7f6",
+  "originHash" : "ddf6754ff0d98e81c24ce3ab504bfb09b28b53ec769865e60f0548c23c0cf9a9",
   "pins" : [
     {
       "identity" : "bson",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:needle-tail/needletail-media-kit.git",
       "state" : {
-        "revision" : "d69d614a25d8b85ef8eb2e6d700a90e79784163e",
-        "version" : "1.0.1"
+        "revision" : "a457e8edbda4f3706d1433a6cbfb21718479504c",
+        "version" : "1.0.6"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:needle-tail/swift-data-to-file.git",
       "state" : {
-        "revision" : "8bb1769be50ddcf6abed733705ac9d8101859d63",
-        "version" : "1.0.2"
+        "revision" : "bc5d670fbca9a239715a5f8e432c03a60f65966e",
+        "version" : "1.0.9"
       }
     },
     {
@@ -71,6 +71,15 @@
       "state" : {
         "revision" : "025bcb1165deab2e20d4eaba79967ce73013f496",
         "version" : "1.2.1"
+      }
+    },
+    {
+      "identity" : "webrtc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/stasel/WebRTC.git",
+      "state" : {
+        "revision" : "094c4fc20594251946319805d8328c8e745dd084",
+        "version" : "128.0.0"
       }
     }
   ],
