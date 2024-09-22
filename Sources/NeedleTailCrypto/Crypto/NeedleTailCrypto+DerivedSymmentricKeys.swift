@@ -4,7 +4,7 @@
 //
 //  Created by Cole M on 1/24/24.
 //
-
+import Foundation
 import Crypto
 
 //MARK: Public
@@ -32,103 +32,51 @@ extension NeedleTailCrypto {
     /// - Returns: The *SymmetricKey*
     public func derivedKeyLogic(
         salt: String,
-        userPrivateKey: String,
-        publicKey: String,
-        cryptoAlogrythm: CryptoAlogrythm
+        cryptoAlogrythm: CryptoAlogrythm,
+        sharedSecret: SharedSecret
     ) throws -> SymmetricKey {
-        switch cryptoAlogrythm {
-        case .curve25519:
-            return try deriveCurve25519SymmetricKey(
-                salt: salt,
-                privateKey: try importCurve25519PrivateKey(userPrivateKey),
-                publicKey: try importCurve25519PublicKey(publicKey)
-            )
-        case .p256:
-            return try deriveP256SymmetricKey(
-                salt: salt,
-                privateKey: try importP256PrivateKey(userPrivateKey),
-                publicKey: try importP256PublicKey(publicKey)
-            )
-        case .p384:
-            return try deriveP384SymmetricKey(
-                salt: salt,
-                privateKey: try importP384PrivateKey(userPrivateKey),
-                publicKey: try importP384PublicKey(publicKey)
-            )
-        case .p521:
-            return try deriveP521SymmetricKey(
-                salt: salt,
-                privateKey: try importP521PrivateKey(userPrivateKey),
-                publicKey: try importP521PublicKey(publicKey)
-            )
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
-        case .secureEnclave:
-            return try deriveSecureEnclaveSymmetricKey(
-                salt: salt,
-                privateKey: try importSecureEnclavePrivateKey(userPrivateKey),
-                publicKey: try importP256PublicKey(publicKey)
-            )
-#endif
+            return try derivedSymmetricKey(
+                sharedSecret: sharedSecret,
+                salt: salt.dataRepresentation)
         }
+    
+    ///  derives our ke
+    /// - Parameters:
+    ///   - sharedSecret: Generated from our localPrivateKey and remotesPublicKey
+    ///   - algorithm:  The alorgithm to use along with the current localPrivateKey and remotePublicKey
+    public func deriveHKDFSymmetricKey<Hash: HashFunction & Sendable>(
+        hash: Hash.Type,
+        from sharedSecret: SharedSecret,
+        with symmetricKey: SymmetricKey,
+        sharedInfo: Data
+    ) async throws -> SymmetricKey {
+        try deriveHKDFSymmetricKey(
+            hash: Hash.self,
+            secret: sharedSecret,
+            symmetricKey: symmetricKey,
+            sharedInfo: sharedInfo
+        )
     }
 }
 
 
 //MARK: Private
 extension NeedleTailCrypto {
-    private func deriveCurve25519SymmetricKey(
-        salt: String,
-        privateKey: Curve25519.KeyAgreement.PrivateKey,
-        publicKey: Curve25519.KeyAgreement.PublicKey
-    ) throws -> SymmetricKey {
-        return try salt.derivedCurve25519SymmetricKey(
-            privateKey: privateKey,
-            publicKey: publicKey
-        )
-    }
     
-    private func deriveP521SymmetricKey(
-        salt: String,
-        privateKey: P521.KeyAgreement.PrivateKey,
-        publicKey: P521.KeyAgreement.PublicKey
+    /// A double ratchet root key is based of of the remote public key  and our shared secret
+    private func deriveHKDFSymmetricKey<Hash: HashFunction & Sendable>(
+        hash of: Hash.Type,
+        secret: SharedSecret,
+        symmetricKey: SymmetricKey,
+        sharedInfo: Data
     ) throws -> SymmetricKey {
-        return try salt.derivedP521SymmetricKey(
-            privateKey: privateKey,
-            publicKey: publicKey
+        return secret.hkdfDerivedSymmetricKey(
+            using: Hash.self,
+            salt: symmetricKey.withUnsafeBytes { buffer in
+                Data(buffer: buffer.bindMemory(to: UInt8.self))
+            },
+            sharedInfo: sharedInfo,
+            outputByteCount: 32
         )
     }
-    
-    private func deriveP384SymmetricKey(
-        salt: String,
-        privateKey: P384.KeyAgreement.PrivateKey,
-        publicKey: P384.KeyAgreement.PublicKey
-    ) throws -> SymmetricKey {
-        return try salt.derivedP384SymmetricKey(
-            privateKey: privateKey,
-            publicKey: publicKey
-        )
-    }
-    
-    private func deriveP256SymmetricKey(
-        salt: String,
-        privateKey: P256.KeyAgreement.PrivateKey,
-        publicKey: P256.KeyAgreement.PublicKey
-    ) throws -> SymmetricKey {
-        return try salt.derivedP256SymmetricKey(
-            privateKey: privateKey,
-            publicKey: publicKey
-        )
-    }
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
-    private func deriveSecureEnclaveSymmetricKey(
-        salt: String,
-        privateKey: SecureEnclave.P256.KeyAgreement.PrivateKey,
-        publicKey: P256.KeyAgreement.PublicKey
-    ) throws -> SymmetricKey {
-        return try salt.derivedSecureEnclaveSymmetricKey(
-            privateKey: privateKey,
-            publicKey: publicKey
-        )
-    }
-#endif
 }

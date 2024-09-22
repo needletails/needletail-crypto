@@ -10,7 +10,7 @@ import Crypto
 
 ///MARK: Public private key exportation
 extension NeedleTailCrypto {
-    public func exportCurve25519PrivateKey(_ privateKey: Curve25519.KeyAgreement.PrivateKey) throws -> String {
+    public func exportCurve25519PrivateKey(_ privateKey: Curve25519PrivateKey) throws -> String {
         privateKey.encodedKey
     }
     

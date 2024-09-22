@@ -8,7 +8,7 @@
 import Crypto
 
 
-extension Curve25519.KeyAgreement.PrivateKey {
+extension Curve25519PrivateKey {
     var encodedKey: String {
         let rawPrivateKey = self.rawRepresentation
         let privateKeyBase64 = rawPrivateKey.base64EncodedString()

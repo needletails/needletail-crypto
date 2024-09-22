@@ -16,9 +16,12 @@ let package = Package(
             targets: ["NeedleTailCrypto"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-crypto.git", "2.6.0"..."3.3.0"),
-        .package(url: "git@github.com:needle-tail/swift-data-to-file.git", .upToNextMajor(from: "1.0.9")),
-        .package(url: "https://github.com/orlandos-nl/BSON.git", from: "8.1.0")
+        .package(url: "https://github.com/apple/swift-crypto.git", .upToNextMajor(from: "3.7.1")),
+        .package(url: "https://github.com/apple/swift-collections.git", .upToNextMajor(from: "1.1.3")),
+        .package(url: "https://github.com/apple/swift-testing.git", .upToNextMajor(from: "0.10.0")),
+        .package(url: "git@github.com:needle-tail/needletail-helpers.git", .upToNextMajor(from: "1.0.2")),
+        .package(url: "https://github.com/needle-tail/needletail-algorithms.git", .upToNextMajor(from: "1.0.9")),
+        .package(url: "https://github.com/orlandos-nl/BSON.git", from: "8.1.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -27,12 +30,17 @@ let package = Package(
             name: "NeedleTailCrypto",
             dependencies: [
                 .product(name: "Crypto", package: "swift-crypto"),
-                .product(name: "SwiftDTF", package: "swift-data-to-file"),
+                .product(name: "Collections", package: "swift-collections"),
+                .product(name: "NeedleTailHelpers", package: "needletail-helpers"),
+                .product(name: "NeedleTailAlgorithms", package: "needletail-algorithms"),
                 .product(name: "BSON", package: "BSON")
             ]
         ),
         .testTarget(
             name: "NeedleTailCryptoTests",
-            dependencies: ["NeedleTailCrypto"]),
+            dependencies: [
+                "NeedleTailCrypto",
+                .product(name: "Testing", package: "swift-testing")
+            ]),
     ]
 )

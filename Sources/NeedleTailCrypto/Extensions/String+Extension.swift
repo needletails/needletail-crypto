@@ -1,77 +1,57 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Cole M on 1/24/24.
 //
 
 import Crypto
 import Foundation
+import BSON
 
 extension String {
     var dataRepresentation: Data {
-        if let base64PublicKey = self.removingPercentEncoding {
-            if let data = Data(base64Encoded: base64PublicKey) {
-                return data
-            }
+        createData()
+    }
+    func createData() -> Data {
+        do {
+            return try BSONEncoder().encode(self).makeData()
+        } catch {
+            fatalError("NOT A BSON TYPE \(error)")
         }
-        fatalError("Data Representation must have a valid Public Key")
+    }
+}
+
+extension Data {
+    var stringValue: String {
+        deriveString()
     }
     
-    func derivedCurve25519SymmetricKey(
-        privateKey: Curve25519.KeyAgreement.PrivateKey,
-        publicKey: Curve25519.KeyAgreement.PublicKey
-    ) throws -> SymmetricKey {
-        let sharedSecret = try privateKey.sharedSecretFromKeyAgreement(with: publicKey)
-        if let salt = self.data(using: .utf8) {
-            return sharedSecret.hkdfDerivedSymmetricKey(using: SHA256.self, salt: salt, sharedInfo: Data(), outputByteCount: 32)
+    func deriveString() -> String {
+        do {
+           return try BSONDecoder().decode(String.self, from: Document(data: self))
+        } catch {
+            fatalError("NOT A BSON TYPE \(error)")
         }
-        fatalError("Could Not Derive Data from Salt")
+    }
+}
+
+extension NeedleTailCrypto {
+    
+    func derivedSymmetricKey(
+        sharedSecret: SharedSecret,
+        salt: Data
+    ) throws -> SymmetricKey {
+        return sharedSecret.hkdfDerivedSymmetricKey(
+            using: SHA256.self,
+            salt: salt,
+            sharedInfo: Data(),
+            outputByteCount: 32
+        )
     }
     
-    func derivedP521SymmetricKey(
-        privateKey: P521.KeyAgreement.PrivateKey,
-        publicKey: P521.KeyAgreement.PublicKey
-    ) throws -> SymmetricKey {
-        let sharedSecret = try privateKey.sharedSecretFromKeyAgreement(with: publicKey)
-        if let salt = self.data(using: .utf8) {
-            return sharedSecret.hkdfDerivedSymmetricKey(using: SHA256.self, salt: salt, sharedInfo: Data(), outputByteCount: 32)
-        }
-        fatalError("Could Not Derive Data from Salt")
+    public func deriveStrictSymmetricKey(data: Data, salt: Data) async -> SymmetricKey {
+        let symmetricKey = SymmetricKey(data: SHA512.hash(data: data))
+        return HKDF<SHA512>.deriveKey(inputKeyMaterial: symmetricKey, salt: data, outputByteCount: 256 / 8)
     }
-    
-    func derivedP384SymmetricKey(
-        privateKey: P384.KeyAgreement.PrivateKey,
-        publicKey: P384.KeyAgreement.PublicKey
-    ) throws -> SymmetricKey {
-        let sharedSecret = try privateKey.sharedSecretFromKeyAgreement(with: publicKey)
-        if let salt = self.data(using: .utf8) {
-            return sharedSecret.hkdfDerivedSymmetricKey(using: SHA256.self, salt: salt, sharedInfo: Data(), outputByteCount: 32)
-        }
-        fatalError("Could Not Derive Data from Salt")
-    }
-    
-    func derivedP256SymmetricKey(
-        privateKey: P256.KeyAgreement.PrivateKey,
-        publicKey: P256.KeyAgreement.PublicKey
-    ) throws -> SymmetricKey {
-        let sharedSecret = try privateKey.sharedSecretFromKeyAgreement(with: publicKey)
-        if let salt = self.data(using: .utf8) {
-            return sharedSecret.hkdfDerivedSymmetricKey(using: SHA256.self, salt: salt, sharedInfo: Data(), outputByteCount: 32)
-        }
-        fatalError("Could Not Derive Data from Salt")
-    }
-    
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
-    func derivedSecureEnclaveSymmetricKey(
-        privateKey: SecureEnclave.P256.KeyAgreement.PrivateKey,
-        publicKey: P256.KeyAgreement.PublicKey
-    ) throws -> SymmetricKey {
-        let sharedSecret = try privateKey.sharedSecretFromKeyAgreement(with: publicKey)
-        if let salt = self.data(using: .utf8) {
-            return sharedSecret.hkdfDerivedSymmetricKey(using: SHA256.self, salt: salt, sharedInfo: Data(), outputByteCount: 32)
-        }
-        fatalError("Could Not Derive Data from Salt")
-    }
-#endif
 }
