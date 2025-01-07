@@ -1,5 +1,5 @@
 {
-  "originHash" : "61e552c48a020740d936b16d16eecd767e1a293a7bda43460990f216f90d1595",
+  "originHash" : "788e5b37807ecd3459e908f5f7e4feec1c0059863b8728808b98640d583347c7",
   "pins" : [
     {
       "identity" : "bson",
@@ -11,57 +11,12 @@
       }
     },
     {
-      "identity" : "needletail-algorithms",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/needle-tail/needletail-algorithms.git",
-      "state" : {
-        "revision" : "827df5b7dfd81272198ddc7f843147e2cb4a74e6",
-        "version" : "1.0.10"
-      }
-    },
-    {
-      "identity" : "needletail-helpers",
-      "kind" : "remoteSourceControl",
-      "location" : "git@github.com:needle-tail/needletail-helpers.git",
-      "state" : {
-        "revision" : "363521fd6ad55e86080b8b6b19951284eca2402b",
-        "version" : "1.0.4"
-      }
-    },
-    {
-      "identity" : "needletail-logger",
-      "kind" : "remoteSourceControl",
-      "location" : "git@github.com:needle-tail/needletail-logger.git",
-      "state" : {
-        "revision" : "efdf5c6700b23af6df51e3edefce9b5e38679305",
-        "version" : "2.0.1"
-      }
-    },
-    {
-      "identity" : "swift-algorithms",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-algorithms.git",
-      "state" : {
-        "revision" : "f6919dfc309e7f1b56224378b11e28bab5bccc42",
-        "version" : "1.2.0"
-      }
-    },
-    {
       "identity" : "swift-asn1",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-asn1.git",
       "state" : {
         "revision" : "7faebca1ea4f9aaf0cda1cef7c43aecd2311ddf6",
         "version" : "1.3.0"
-      }
-    },
-    {
-      "identity" : "swift-async-algorithms",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-async-algorithms.git",
-      "state" : {
-        "revision" : "5c8bd186f48c16af0775972700626f0b74588278",
-        "version" : "1.0.2"
       }
     },
     {
@@ -92,30 +47,12 @@
       }
     },
     {
-      "identity" : "swift-log",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-log.git",
-      "state" : {
-        "revision" : "9cb486020ebf03bfa5b5df985387a14a98744537",
-        "version" : "1.6.1"
-      }
-    },
-    {
       "identity" : "swift-nio",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio.git",
       "state" : {
         "revision" : "914081701062b11e3bb9e21accc379822621995e",
         "version" : "2.76.1"
-      }
-    },
-    {
-      "identity" : "swift-numerics",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-numerics.git",
-      "state" : {
-        "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
-        "version" : "1.0.2"
       }
     },
     {
