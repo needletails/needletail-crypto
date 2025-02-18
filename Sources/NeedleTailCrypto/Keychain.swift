@@ -1,17 +1,32 @@
-
 //  KeychainItem.swift
 //
 //  Created by Cole M on 6/8/20.
 //  Copyright © 2020 Cole M. All rights reserved.
+//
+//  This file provides a robust implementation for managing keychain items in iOS, macOS, tvOS, and watchOS applications.
+//  It includes functionality for saving, reading, and deleting keychain items, along with error handling and configuration options.
 
 #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 import Foundation
 
+/// A struct that represents a keychain item and provides methods for accessing the keychain.
 private struct KeychainItem: Sendable {
-
+    
     // MARK: Keychain Access
-    fileprivate func readItem(configuration: KeychainConfiguration) throws -> String {
-        var query = keychainQuery(configuration: configuration)
+    
+    /// Reads an item from the keychain.
+    /// - Parameter configuration: The configuration containing service, account, and access group.
+    /// - Throws: `KeychainError` if the item is not found or if there is an unexpected error.
+    /// - Returns: The password as a string if found.
+    fileprivate func readItem(
+        configuration: KeychainConfiguration,
+        dataProtectionEnabled: Bool = true,
+        synchronizable: Bool = false
+    ) throws -> String {
+        var query = keychainQuery(
+            configuration: configuration,
+            dataProtectionEnabled: dataProtectionEnabled,
+            synchronizable: synchronizable)
         
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         query[kSecReturnAttributes as String] = kCFBooleanTrue
@@ -33,16 +48,29 @@ private struct KeychainItem: Sendable {
             }
             return password
         default:
-            throw KeychainError.unhandledError
+            throw KeychainError.unhandledError(status: status)
         }
     }
     
-    fileprivate func saveItem(_ item: String, with configuration: KeychainConfiguration) throws {
+    /// Saves an item to the keychain.
+    /// - Parameters:
+    ///   - item: The item to save as a string.
+    ///   - configuration: The configuration containing service, account, and access group.
+    /// - Throws: `KeychainError` if there is an error during saving.
+    fileprivate func saveItem(_ item: String,
+                              with configuration: KeychainConfiguration,
+                              dataProtectionEnabled: Bool = true,
+                              synchronizable: Bool = false
+    ) throws {
         guard let encodedItem = item.data(using: .utf8) else {
             throw KeychainError.unexpectedItemData
         }
         
-        let query = keychainQuery(configuration: configuration)
+        var query = keychainQuery(
+            configuration: configuration,
+            dataProtectionEnabled: dataProtectionEnabled,
+            synchronizable: synchronizable)
+        
         let status: OSStatus
         
         do {
@@ -60,25 +88,48 @@ private struct KeychainItem: Sendable {
         }
         
         guard status == noErr else {
-            throw KeychainError.unhandledError
+            throw KeychainError.unhandledError(status: status)
         }
     }
     
-    fileprivate func deleteItem(configuration: KeychainConfiguration) throws {
-        let query = keychainQuery(configuration: configuration)
+    /// Deletes an item from the keychain.
+    /// - Parameter configuration: The configuration containing service, account, and access group.
+    /// - Throws: `KeychainError` if there is an error during deletion.
+    fileprivate func deleteItem(configuration: KeychainConfiguration,
+                                dataProtectionEnabled: Bool = true,
+                                synchronizable: Bool = false
+    ) throws {
+        var query = keychainQuery(
+            configuration: configuration,
+            dataProtectionEnabled: dataProtectionEnabled,
+            synchronizable: synchronizable)
         let status = SecItemDelete(query as CFDictionary)
         
         guard status == noErr || status == errSecItemNotFound else {
-            throw KeychainError.unhandledError
+            throw KeychainError.unhandledError(status: status)
         }
     }
     
-    private func keychainQuery(configuration: KeychainConfiguration) -> [String: Any] {
+    /// Creates a keychain query dictionary.
+    /// - Parameters:
+    ///   - configuration: The configuration containing service, account, and access group.
+    ///   - dataProtectionEnabled: A flag indicating if the item should be stored in a data protection keychain,
+    ///                            which restricts access to the item when the device is locked.
+    ///                            If true, the item is accessible only when the device is unlocked.
+    ///   - synchronizable: A flag indicating if the item should be synchronized across devices using iCloud Keychain.
+    ///                     If true, the item will be available on all devices where the user is signed in with the same Apple ID
+    ///                     and has iCloud Keychain enabled.
+    /// - Returns: A dictionary representing the keychain query.
+    private func keychainQuery(
+        configuration: KeychainConfiguration,
+        dataProtectionEnabled: Bool,
+        synchronizable: Bool
+    ) -> [String: Any] {
         var query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked,
-            kSecUseDataProtectionKeychain as String: true,
-            kSecAttrSynchronizable as String: true
+            kSecUseDataProtectionKeychain as String: dataProtectionEnabled,
+            kSecAttrSynchronizable as String: synchronizable
         ]
         
         if let service = configuration.service {
@@ -97,45 +148,68 @@ private struct KeychainItem: Sendable {
     }
 }
 
+/// Enum representing possible errors that can occur while accessing the keychain.
 enum KeychainError: Error {
     case noPassword
     case unexpectedPasswordData
     case unexpectedItemData
-    case unhandledError
+    case unhandledError(status: OSStatus) // Include the status for better debugging
 }
 
+/// An actor that provides a safe interface for keychain operations.
 public actor NTKeychain {
     
     private let keychainItem = KeychainItem()
-
+    
+    /// Saves an item to the keychain.
+    /// - Parameters:
+    ///   - item: The item to save as a string.
+    ///   - configuration: The configuration containing service, account, and access group.
+    /// - Throws: `KeychainError` if there is an error during saving.
     public func save(item: String, with configuration: KeychainConfiguration) throws {
         try keychainItem.saveItem(item, with: configuration)
     }
     
+    /// Fetches an item from the keychain.
+    /// - Parameter configuration: The configuration containing service, account, and access group.
+    /// - Returns: The item as a string if found, or nil if not found.
     public func fetchItem(configuration: KeychainConfiguration) -> String? {
         do {
             return try keychainItem.readItem(configuration: configuration)
         } catch {
-            // Handle the case where no password is found
+            // Handle the case where no password is found or other errors
             return nil
         }
     }
     
+    /// Deletes an item from the keychain.
+    /// - Parameter configuration: The configuration containing service, account, and access group.
+    /// - Throws: `KeychainError` if there is an error during deletion.
     public func deleteItem(configuration: KeychainConfiguration) async throws {
         try keychainItem.deleteItem(configuration: configuration)
     }
 }
 
-
+/// A struct that represents the configuration for keychain access.
 public struct KeychainConfiguration: Sendable {
     // MARK: Properties
-    /// Service, kSecAttrService, a string to identify a set of Keychain Items like “com.my-app.bundle-id”
+    /// Service identifier for the keychain item (kSecAttrService).
+    /// This is typically a string that identifies a set of keychain items, e.g., "com.my-app.bundle-id".
     let service: String?
-    /// Account, kSetAttrAccount, a string to identify a Keychain Item within a specific service, like “username@email.com”
+    
+    /// Account identifier for the keychain item (kSecAttrAccount).
+    /// This is typically a string that identifies a keychain item within a specific service, e.g., "username@email.com".
     let account: String?
-    /// The Access Group for the given application. This is specified under the Target's Keychain Sharing -> Keychain Group
+    
+    /// The Access Group for the given application (kSecAttrAccessGroup).
+    /// This is specified under the Target's Keychain Sharing -> Keychain Group in Xcode.
     let accessGroup: String?
     
+    /// Initializes a new KeychainConfiguration.
+    /// - Parameters:
+    ///   - service: The service identifier for the keychain item.
+    ///   - account: The account identifier for the keychain item.
+    ///   - accessGroup: The access group for the keychain item.
     public init(service: String? = nil, account: String? = nil, accessGroup: String? = nil) {
         self.service = service
         self.account = account
@@ -143,3 +217,4 @@ public struct KeychainConfiguration: Sendable {
     }
 }
 #endif
+

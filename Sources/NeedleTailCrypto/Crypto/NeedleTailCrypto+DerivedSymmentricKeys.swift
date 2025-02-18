@@ -15,7 +15,11 @@ extension NeedleTailCrypto {
     /// - Returns: Our *SymmetricKey*
     public func userInfoKey(_ key: String) throws -> SymmetricKey {
         guard let keyData = key.data(using: .utf8) else { throw Errors.keyDataNil }
-        let hash = SHA256.hash(data: keyData)
+        return try symmetricKey(from: keyData)
+    }
+    
+    public func symmetricKey(from data: Data) throws -> SymmetricKey {
+        let hash = SHA256.hash(data: data)
         let hashString = hash.map { String(format: "%02hhx", $0)}.joined()
         let subString = String(hashString.prefix(32))
         guard let symmetricKeyData = subString.data(using: .utf8) else { throw Errors.symmetricKeyDataNil }
