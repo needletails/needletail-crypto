@@ -1,13 +1,13 @@
 {
-  "originHash" : "788e5b37807ecd3459e908f5f7e4feec1c0059863b8728808b98640d583347c7",
+  "originHash" : "2f296250dbbec6efea60c46330f7d67a726fd8a90f400c76435162e31d5038f7",
   "pins" : [
     {
       "identity" : "bson",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/orlandos-nl/BSON.git",
       "state" : {
-        "revision" : "d918a5c24d875deeb6bcc9082a68bd097ac24d92",
-        "version" : "8.1.2"
+        "revision" : "b40021921464def7d9ba81d27803a6df1ecd7f79",
+        "version" : "8.1.5"
       }
     },
     {
@@ -56,30 +56,12 @@
       }
     },
     {
-      "identity" : "swift-syntax",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/swiftlang/swift-syntax.git",
-      "state" : {
-        "revision" : "0687f71944021d616d34d922343dcef086855920",
-        "version" : "600.0.1"
-      }
-    },
-    {
       "identity" : "swift-system",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-system.git",
       "state" : {
         "revision" : "c8a44d836fe7913603e246acab7c528c2e780168",
         "version" : "1.4.0"
-      }
-    },
-    {
-      "identity" : "swift-testing",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-testing.git",
-      "state" : {
-        "revision" : "399f76dcd91e4c688ca2301fa24a8cc6d9927211",
-        "version" : "0.99.0"
       }
     }
   ],

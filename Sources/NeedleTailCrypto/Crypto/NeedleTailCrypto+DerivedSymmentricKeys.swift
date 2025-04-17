@@ -26,7 +26,6 @@ extension NeedleTailCrypto {
         return SymmetricKey(data: symmetricKeyData)
     }
     
-    
     /// This method is used to generate a *SymmetricKey* from A users PrivateKey/PublicKey per their desire Crypto Algorythm. The salt is used for key derivation. The private key is used to create a shared secret between two users for an End-to-End Encrypted message.The shared secret inturn creates a Symmetric key used to unlock message using hkdf. The hashing algorythm is *SHA256* based.
     /// - Parameters:
     ///   - salt: "A unique salt string used for communication between end users"
@@ -62,7 +61,6 @@ extension NeedleTailCrypto {
         )
     }
 }
-
 
 //MARK: Private
 extension NeedleTailCrypto {

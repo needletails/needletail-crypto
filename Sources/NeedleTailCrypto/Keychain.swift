@@ -66,7 +66,7 @@ private struct KeychainItem: Sendable {
             throw KeychainError.unexpectedItemData
         }
         
-        var query = keychainQuery(
+        let query = keychainQuery(
             configuration: configuration,
             dataProtectionEnabled: dataProtectionEnabled,
             synchronizable: synchronizable)
@@ -99,7 +99,7 @@ private struct KeychainItem: Sendable {
                                 dataProtectionEnabled: Bool = true,
                                 synchronizable: Bool = false
     ) throws {
-        var query = keychainQuery(
+        let query = keychainQuery(
             configuration: configuration,
             dataProtectionEnabled: dataProtectionEnabled,
             synchronizable: synchronizable)
