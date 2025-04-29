@@ -6,7 +6,7 @@
 //
 
 import Crypto
-
+import SwiftKyber
 
 ///MARK: Public private key generation
 extension NeedleTailCrypto {
@@ -41,6 +41,10 @@ extension NeedleTailCrypto {
     
     public func generateP256PrivateSigningKey() -> P256PrivateSigningKey {
         P256.Signing.PrivateKey()
+    }
+    
+    public func generateKyber1024PrivateSigningKey() throws -> Kyber1024.KeyAgreement.PrivateKey {
+        try Kyber1024.KeyAgreement.PrivateKey()
     }
     
 #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
