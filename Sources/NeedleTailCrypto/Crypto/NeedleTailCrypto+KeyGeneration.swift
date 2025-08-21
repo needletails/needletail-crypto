@@ -5,7 +5,11 @@
 //  Created by Cole M on 1/24/24.
 //
 
+#if os(Android)
+@preconcurrency import Crypto
+#else
 import Crypto
+#endif
 import SwiftKyber
 
 ///MARK: Public private key generation
@@ -51,5 +55,11 @@ extension NeedleTailCrypto {
     public func generateSecureEnclavePrivateKey() throws -> EnclavePrivateKey {
         try SecureEnclave.P256.KeyAgreement.PrivateKey()
     }
+    
+//    @available(iOS 26.0, macOS 26.0, watchOS 26.0, tvOS 26.0, *)
+//    public func generateModuleLatice1024Keys() throws  -> MLKEM1024.PrivateKey {
+//        try MLKEM1024.PrivateKey()
+//    }
 #endif
 }
+

@@ -5,7 +5,7 @@
 //  Created by Cole M on 1/25/24.
 //
 
-@preconcurrency import Crypto
+import Crypto
 
 #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 extension NeedleTailCrypto {

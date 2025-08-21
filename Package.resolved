@@ -1,5 +1,5 @@
 {
-  "originHash" : "06cac1a501ce29ec9e5469bdcb23b9abbdb7e1ad585c192f3951c93978ca7cb5",
+  "originHash" : "e03f3392c368d9cdfdc938a6f2fe4f045312b3d83e85410f860a7710f5629cf8",
   "pins" : [
     {
       "identity" : "bson",
@@ -44,6 +44,15 @@
       "state" : {
         "revision" : "e8d6eba1fef23ae5b359c46b03f7d94be2f41fed",
         "version" : "3.12.3"
+      }
+    },
+    {
+      "identity" : "swift-kyber",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:needletails/swift-kyber.git",
+      "state" : {
+        "revision" : "e811bba6237d93f17013f0a604ed95ce525dfb43",
+        "version" : "1.0.1"
       }
     },
     {

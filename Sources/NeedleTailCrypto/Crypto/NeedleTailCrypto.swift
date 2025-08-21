@@ -7,8 +7,12 @@
 //
 
 import Foundation
-@preconcurrency import Crypto
 import BSON
+#if os(Android)
+@preconcurrency import Crypto
+#else
+import Crypto
+#endif
 
 public typealias Curve25519PublicKey = Curve25519.KeyAgreement.PublicKey
 public typealias Curve25519PrivateKey = Curve25519.KeyAgreement.PrivateKey
@@ -19,7 +23,9 @@ public typealias P256PublicKey = P256.KeyAgreement.PublicKey
 public typealias P256PrivateKey = P256.KeyAgreement.PrivateKey
 public typealias P256PublicSigningKey = P256.Signing.PublicKey
 public typealias P256PrivateSigningKey = P256.Signing.PrivateKey
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 public typealias EnclavePrivateKey = SecureEnclave.P256.KeyAgreement.PrivateKey
+#endif
 
 public typealias P384PublicKey = P384.KeyAgreement.PublicKey
 public typealias P384PrivateKey = P384.KeyAgreement.PrivateKey

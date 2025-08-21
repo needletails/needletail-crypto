@@ -16,10 +16,10 @@ let package = Package(
             targets: ["NeedleTailCrypto"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-crypto.git", .upToNextMajor(from: "3.7.1")),
-        .package(url: "https://github.com/apple/swift-collections.git", .upToNextMajor(from: "1.1.3")),
-        .package(url: "https://github.com/orlandos-nl/BSON.git", .upToNextMajor(from: "8.1.5")),
-        .package(url: "git@github.com:needletails/swift-kyber.git", .upToNextMajor(from: "1.0.1"))
+        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.7.1"),
+        .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.3"),
+        .package(url: "https://github.com/orlandos-nl/BSON.git", from: "8.1.5"),
+        .package(url: "https://github.com/needletails/swift-kyber.git", from: "1.0.1")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
