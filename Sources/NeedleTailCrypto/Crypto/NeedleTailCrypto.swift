@@ -43,8 +43,10 @@ public struct NeedleTailCrypto: Sendable {
     
 #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
     let secureEnclave = NTSecureEnclave()
-    let keychain = NTKeychain()
 #endif
+    
+    public let keychain = NTKeychain()
+    
     public init() {}
     
     /// Errors
