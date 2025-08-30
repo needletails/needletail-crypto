@@ -159,6 +159,9 @@ enum KeychainError: Error {
 
 /// An actor that provides a safe interface for keychain operations.
 public actor NTKeychain {
+    
+    public init() {}
+    
 #if !os(Android)
     private let keychainItem = KeychainItem()
     
