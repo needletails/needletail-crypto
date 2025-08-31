@@ -292,16 +292,16 @@ public actor NTKeychain {
 public struct KeychainConfiguration: Sendable {
     /// Service identifier for the keychain item (kSecAttrService).
     /// This is typically a string that identifies a set of keychain items, e.g., "com.my-app.bundle-id.some-identifier.
-    let service: String?
+    public let service: String?
     
 #if !os(Android)
     /// Account identifier for the keychain item (kSecAttrAccount).
     /// This is typically a string that identifies a keychain item within a specific service, e.g., "username@email.com".
-    let account: String?
+    public let account: String?
     
     /// The Access Group for the given application (kSecAttrAccessGroup).
     /// This is specified under the Target's Keychain Sharing -> Keychain Group in Xcode.
-    let accessGroup: String?
+    public let accessGroup: String?
     
     /// Initializes a new KeychainConfiguration.
     /// - Parameters:
