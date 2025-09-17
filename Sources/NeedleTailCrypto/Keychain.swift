@@ -12,7 +12,7 @@ import Foundation
 /// A struct that represents a keychain item and provides methods for accessing the keychain.
 private struct KeychainItem: Sendable {
     
-#if !os(Android)
+#if !os(Android) || !os(Linux)
     /// Reads an item from the keychain.
     /// - Parameter configuration: The configuration containing service, account, and access group.
     /// - Throws: `KeychainError` if the item is not found or if there is an unexpected error.
@@ -152,7 +152,7 @@ enum KeychainError: Error {
     case noPassword
     case unexpectedPasswordData
     case unexpectedItemData
-#if !os(Android)
+#if !os(Android) || !os(Linux)
     case unhandledError(status: OSStatus)
 #endif
 }
@@ -162,7 +162,7 @@ public actor NTKeychain {
     
     public init() {}
     
-#if !os(Android)
+#if !os(Android) || !os(Linux)
     private let keychainItem = KeychainItem()
     
     // MARK: - Backward Compatible Methods (Original API)
@@ -294,7 +294,7 @@ public struct KeychainConfiguration: Sendable {
     /// This is typically a string that identifies a set of keychain items, e.g., "com.my-app.bundle-id.some-identifier.
     public let service: String?
     
-#if !os(Android)
+#if !os(Android) || !os(Linux)
     /// Account identifier for the keychain item (kSecAttrAccount).
     /// This is typically a string that identifies a keychain item within a specific service, e.g., "username@email.com".
     public let account: String?
