@@ -1,4 +1,4 @@
-// swift-tools-version:6.0
+// swift-tools-version:6.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -16,10 +16,8 @@ let package = Package(
             targets: ["NeedleTailCrypto"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.7.1"),
-        .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.3"),
-        .package(url: "https://github.com/orlandos-nl/BSON.git", from: "8.1.5"),
-        .package(url: "https://github.com/needletails/swift-kyber.git", from: "1.0.1")
+        .package(url: "https://github.com/needletails/swift-crypto.git", branch: "trait/force-build-swift-crypto-api", traits: ["FORCE_BUILD_SWIFT_CRYPTO_API"]),
+        .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.3")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -28,10 +26,8 @@ let package = Package(
             name: "NeedleTailCrypto",
             dependencies: [
                 .product(name: "Crypto", package: "swift-crypto"),
-                .product(name: "Collections", package: "swift-collections"),
-                .product(name: "BSON", package: "BSON"),
-                .product(name: "SwiftKyber", package: "swift-kyber")
-            ]
+                .product(name: "Collections", package: "swift-collections")
+            ],
         ),
         .testTarget(
             name: "NeedleTailCryptoTests",

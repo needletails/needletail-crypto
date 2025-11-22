@@ -7,7 +7,9 @@
 #if canImport(LocalAuthentication)
 import LocalAuthentication
 #endif
-import Crypto
+#if canImport(CryptoKit)
+import CryptoKit
+#endif
 import Foundation
 
 #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)

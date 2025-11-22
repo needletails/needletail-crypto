@@ -5,7 +5,7 @@
 //  Created by Cole M on 1/24/24.
 //
 import Foundation
-import Crypto
+@_exported import Crypto
 
 //MARK: Public
 extension NeedleTailCrypto {
