@@ -7,35 +7,7 @@
 //
 
 import Foundation
-import BSON
-#if os(Android) || os(Linux)
-@preconcurrency import Crypto
-#else
-import Crypto
-#endif
-
-public typealias Curve25519PublicKey = Curve25519.KeyAgreement.PublicKey
-public typealias Curve25519PrivateKey = Curve25519.KeyAgreement.PrivateKey
-public typealias Curve25519SigningPublicKey = Curve25519.Signing.PublicKey
-public typealias Curve25519SigningPrivateKey = Curve25519.Signing.PrivateKey
-
-public typealias P256PublicKey = P256.KeyAgreement.PublicKey
-public typealias P256PrivateKey = P256.KeyAgreement.PrivateKey
-public typealias P256PublicSigningKey = P256.Signing.PublicKey
-public typealias P256PrivateSigningKey = P256.Signing.PrivateKey
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
-public typealias EnclavePrivateKey = SecureEnclave.P256.KeyAgreement.PrivateKey
-#endif
-
-public typealias P384PublicKey = P384.KeyAgreement.PublicKey
-public typealias P384PrivateKey = P384.KeyAgreement.PrivateKey
-public typealias P384PublicSigningKey = P384.Signing.PublicKey
-public typealias P384PrivateSigningKey = P384.Signing.PrivateKey
-
-public typealias P521PublicKey = P521.KeyAgreement.PublicKey
-public typealias P521PrivateKey = P521.KeyAgreement.PrivateKey
-public typealias P521PublicSigningKey = P521.Signing.PublicKey
-public typealias P521PrivateSigningKey = P521.Signing.PrivateKey
+@_exported import Crypto
 
 /// Our Crypto Module. NeedleTailCrypto is designed as a wrapper around common *SwiftCrypto*/*CryptoKit* code. It is designed to simply Encrypting and decrypting your data to be stored or sent else where. Our goal in
 /// this Swift Package is to make it easier for  not only encryption, but where public/private keys could and or should be stored.
@@ -50,8 +22,14 @@ public struct NeedleTailCrypto: Sendable {
     public init() {}
     
     /// Errors
-    internal enum Errors: Error {
-        case keyDataNil, symmetricKeyDataNil, combinedDataNil, decryptionError
+    public enum Errors: Error {
+        case keyDataNil
+        case symmetricKeyDataNil
+        case combinedDataNil
+        case decryptionError
+        case secureEnclaveKeychainMismatch
+        case invalidBase64Encoding
+        case invalidUTF8Encoding
     }
     
     /// The desired algorythm you intend to use for deriving key logic
@@ -94,9 +72,14 @@ extension NeedleTailCrypto {
     ///   - text: A Foundation String to encrypt
     ///   - symmetricKey: The *SymmetricKey* that you derive from the ``derivedKeyLogic()`` method. Alternatively you may derive a *SymmetricKey* from the ``userInfoKey()`` method for a *SHA256 * Hash based  *SymmetricKey*.
     /// - Returns: Your encrypted String
+    /// - Throws: ``Errors/invalidUTF8Encoding`` if the string cannot be encoded as UTF-8, ``Errors/combinedDataNil`` if encryption fails
     public func encryptText(text: String, symmetricKey: SymmetricKey, nonce: AES.GCM.Nonce? = nil) throws -> String {
-        let textData = text.data(using: .utf8)!
-        guard let encrypted = try AES.GCM.seal(textData, using: symmetricKey, nonce: nonce).combined else { throw Errors.combinedDataNil }
+        guard let textData = text.data(using: .utf8) else {
+            throw Errors.invalidUTF8Encoding
+        }
+        guard let encrypted = try AES.GCM.seal(textData, using: symmetricKey, nonce: nonce).combined else {
+            throw Errors.combinedDataNil
+        }
         return encrypted.base64EncodedString()
     }
     
@@ -105,14 +88,15 @@ extension NeedleTailCrypto {
     ///   - text: A Foundation String to decrypt
     ///   - symmetricKey: The *SymmetricKey* that you derive from the ``derivedKeyLogic()`` method. Alternatively you may derive a *SymmetricKey* from the ``userInfoKey()`` method for a *SHA256 * Hash based  *SymmetricKey*.
     /// - Returns: Your decrypted String
+    /// - Throws: ``Errors/invalidBase64Encoding`` if the text is not valid base64, ``Errors/invalidUTF8Encoding`` if decrypted data cannot be decoded as UTF-8, ``Errors/decryptionError`` if decryption fails
     public func decryptText(text: String, symmetricKey: SymmetricKey) throws -> String {
         guard let data = Data(base64Encoded: text) else {
-            return "Could not decode text: \(text)"
+            throw Errors.invalidBase64Encoding
         }
         let sealedBox = try AES.GCM.SealedBox(combined: data)
         let decryptedData = try AES.GCM.open(sealedBox, using: symmetricKey)
         guard let text = String(data: decryptedData, encoding: .utf8) else {
-            return "Could not decode data: \(decryptedData)"
+            throw Errors.invalidUTF8Encoding
         }
         return text
     }

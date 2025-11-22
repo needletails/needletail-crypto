@@ -5,8 +5,7 @@
 //  Created by Cole M on 1/25/24.
 //
 
-import Crypto
-
+@_exported import Crypto
 
 extension NeedleTailCrypto {
     
@@ -34,7 +33,7 @@ extension NeedleTailCrypto {
         case .p521:
             key = generateP521PrivateKey().encodedKey
         case .secureEnclave:
-            fatalError("Must use Secure Enclave object not Keychain Object")
+            throw Errors.secureEnclaveKeychainMismatch
         }
         try await keychain.save(item: key, with: configuration)
     }

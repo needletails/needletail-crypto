@@ -5,7 +5,7 @@
 //  Created by Cole M on 1/24/24.
 //
 
-import Crypto
+@_exported import Crypto
 
 extension NeedleTailCrypto {
     internal func importCurve25519PublicKey(_ publicKey: String) throws -> Curve25519.KeyAgreement.PublicKey {

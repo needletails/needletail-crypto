@@ -1,24 +1,21 @@
 //
-//  File.swift
+//  String+Extension.swift
 //
 //
 //  Created by Cole M on 1/24/24.
 //
 
-import Crypto
+@_exported import Crypto
 import Foundation
-import BSON
 
 extension String {
     var dataRepresentation: Data {
         createData()
     }
     func createData() -> Data {
-        do {
-            return try BSONEncoder().encode(self).makeData()
-        } catch {
-            fatalError("NOT A BSON TYPE \(error)")
-        }
+        // UTF-8 encoding should never fail for valid Swift strings
+        // If it does, return empty data as a safe fallback
+        self.data(using: .utf8) ?? Data()
     }
 }
 
@@ -28,11 +25,9 @@ extension Data {
     }
     
     func deriveString() -> String {
-        do {
-           return try BSONDecoder().decode(String.self, from: Document(data: self))
-        } catch {
-            fatalError("NOT A BSON TYPE \(error)")
-        }
+        // UTF-8 decoding should succeed for valid UTF-8 data
+        // If it fails, return empty string as a safe fallback
+        String(data: self, encoding: .utf8) ?? ""
     }
 }
 
