@@ -16,7 +16,7 @@ let package = Package(
             targets: ["NeedleTailCrypto"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/needletails/swift-crypto.git", branch: "trait/force-build-swift-crypto-api", traits: ["FORCE_BUILD_SWIFT_CRYPTO_API"]),
+        .package(url: "https://github.com/needletails/swift-crypto.git",  from: "1.0.1"), traits: ["FORCE_BUILD_SWIFT_CRYPTO_API"]),
         .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.3")
     ],
     targets: [
