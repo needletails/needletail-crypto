@@ -8,4 +8,5 @@ DerivedData/
 .netrc
 .swiftpm
 .vscode
-Package.resolvedPackage.resolved
+Package.resolved
+
