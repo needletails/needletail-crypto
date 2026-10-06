@@ -120,6 +120,7 @@ struct NeedleTailCryptoTests {
     }
     
     @Test("Generate MLKEM1024 key")
+    @available(anyAppleOS 26.0, *)
     func generateMLKem1024Key() throws {
         let privateKey = try crypto.generateMLKem1024PrivateKey()
         let publicKey = privateKey.publicKey

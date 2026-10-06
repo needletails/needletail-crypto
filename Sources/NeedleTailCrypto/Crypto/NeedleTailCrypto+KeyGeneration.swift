@@ -42,11 +42,13 @@ extension NeedleTailCrypto {
         P256.Signing.PrivateKey()
     }
     
+    @available(anyAppleOS 26.0, *)
     public func generateMLKem1024PrivateKey() throws -> MLKEM1024.PrivateKey {
         try MLKEM1024.PrivateKey()
     }
 }
 
+@available(anyAppleOS 26.0, *)
 extension MLKEM1024.PrivateKey: @retroactive Codable {
    
     private enum CodingKeys: String, CodingKey {
@@ -79,6 +81,7 @@ extension MLKEM1024.PrivateKey: @retroactive Codable {
     }
 }
 
+@available(anyAppleOS 26.0, *)
 extension MLKEM1024.PublicKey: @retroactive Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
